@@ -1,0 +1,227 @@
+:root {
+    --main-bg: #FFFFFF; /* Fondo principal: blanco */
+    --component-bg: #F0F0F0; /* Fondo de componentes: gris muy claro */
+    --text-font: #333333; /* Texto: gris oscuro para contraste */
+    --button-font: #FFFFFF; /* Texto de botón: blanco para contraste en botones oscuros */
+    --header-font: #000000; /* Encabezados: negro para máxima legibilidad */
+    --button: #BBBBBB; /* Botones: gris medio para diferenciar del fondo */
+    --bgAcepted: rgba(0, 0, 0, 0.8); /* Fondo aceptado: negro con alta opacidad */
+    --bgPending: rgba(76, 76, 76, 0.8); /* Fondo pendiente: gris oscuro */
+    --bgRejected: rgba(128, 128, 128, 0.8); /* Fondo rechazado: gris medio */
+    --debug: #CCCCCC; /* Debug: gris claro */
+    --info: #AAAAAA; /* Info: gris medio-claro */
+    --warn: #888888; /* Advertencia: gris medio */
+    --error: #555555; /* Error: gris medio-oscuro */
+    --selected: #E5E5E5; /* Seleccionado: gris muy claro, casi blanco */
+}
+body,html {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--main-bg);
+    color: var(--text-font);
+    margin: 0;
+}
+html {
+    height: 100vh;
+}
+body {
+    height: auto;
+    margin: 0 auto;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+button {
+    background-color: var(--button);
+    color: var(--button-font);
+    padding: 0.2rem;
+}
+h1, h2, h3 {
+    cursor: pointer;
+    color: var(--header-font);
+}
+h4 {
+    pointer-events: none;
+    font-weight: 450;
+    color: var(--header-font);
+}
+input {
+    list-style: none;
+    /* pointer-events: none; */
+}
+div {
+    border-radius: 5px;
+}
+/* Personaliza la barra de desplazamiento para que sea menos visible */
+::-webkit-scrollbar {
+    width: 0px; /* Controla el ancho del scrollbar */
+    height: 8px; /* Controla la altura del scrollbar (para desplazamiento horizontal) */
+}
+/* Personaliza la pista (track) del scrollbar */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* Haz el fondo del track casi transparente */
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0); /* Haz el pulgar casi transparente */
+}
+/* Opcional: Personaliza el pulgar (thumb) del scrollbar al pasar el mouse */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4); /* Oscurece el pulgar un poco al pasar el mouse */
+}
+
+
+/* app */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 6vh;
+    padding: 1rem 4rem;
+}
+footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem 2rem;
+}
+.container {
+    width:100%;
+    height: 92.519vh;
+    padding: 0 1rem;
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+
+/* componentes */
+.component {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.viewContent {
+    grid-area: 1 / 3 / 2 / -1;
+    display: inline-block;
+    word-wrap: break-word;
+}
+.authContent {
+    grid-area: 1 / 3 / 2 / 5;
+}
+
+
+/* contenido componentes*/
+.dispositivo {
+    display: flex;
+    justify-content: space-around;
+    border-style: solid;
+    border-width: 0.3rem;
+    border-color: var(--component-bg);
+    padding: 0.6rem;
+}
+.lista_dispositivos {
+    border-style: solid;
+    border-width: 0.3rem;
+    border-color: var(--component-bg);
+    padding: 0.2rem;
+}
+.tipo_dispositivo {
+    margin-bottom: 0.2rem;
+}
+.consola {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    border-style: solid;
+    border-width: 0.3rem;
+    border-color: var(--component-bg);
+    padding: 0.8rem;
+    background-color: var(--button);
+}
+
+.consola h3 {
+    border-width: 0.3rem;
+    border-color: var(--button);
+    padding: 0.3rem;
+}
+.code_area{
+    border-width: 0.3rem;
+    border-color: var(--button);
+    background-color: black;
+    font: 11pt/1.25 Monaco, monospace;
+    color: white;
+    width: 100%;
+    height: 18rem;
+    padding: 0.3rem;
+}
+/* estilos dinamicos */
+.bgAcepted {
+    background-color: var(--bgAcepted);
+}
+.bgPending {
+    background-color: var(--bgPending);
+}
+.bgRejected {
+    background-color: var(--bgRejected);
+}
+.debug { color: var(--debug); }
+.info  { color: var(--info); }
+.warn  { color: var(--warn); }
+.error { color: var(--error); }
+.hover:hover:not(:has(*:hover)):not(:focus-visible):not(.selected), 
+.hover *:hover:not(:has(*:hover)):not(:focus-visible):not(.selected),
+.selected{
+    border-style: solid;
+    border-width: 0.3rem;
+    border-color: var(--selected);
+    cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
+}
+.hidden {
+    display: none;
+}
+.scrollB {
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+/* user dropdown */
+.dropbtn {
+background-color: #04AA6D;
+color: white;
+padding: 16px;
+font-size: 16px;
+border: none;
+cursor: pointer;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+right: 0;
+background-color: #f9f9f9;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropbtn {background-color: #3e8e41;}

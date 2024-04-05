@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="viewContent component">
   {% for u in users %}
       <h1>{{ u['id'] }}</h1>
       <p>{{ u['username'] }}</p>
@@ -19,4 +20,5 @@
       <hr>
     {% endif %}
   {% endfor %}
+</div>
 {% endblock %}
