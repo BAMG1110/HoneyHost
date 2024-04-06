@@ -2,39 +2,50 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>{% block title %}{% endblock %} - Flaskr</title>
 
-<nav>
-  <h1 class="switch_theme">🍯 Honey Host</h1>
-  <div class="dropdown">
-    {% if g.user %}
-      <span class="dropbtn">{{ g.user['username'] }}</span>
-      <div class="dropdown-content">
-        <a href="{{ url_for('auth.logout') }}">Log Out</a>
+<body>
+  <nav>
+    <h3 class="switch_theme">🍯 Honey Host</h3>
+    <div class="userOptions">
+      {% if g.user %}
+      <span>{{ g.user['username'] }}</span>
+      <div class="dropdown">
+        <img class="profileImage" src="{{ url_for('static', filename='pp.jpg') }}" alt="profile picture">
+        <div class="dropdownContent">
+          <a class="action" href="{{ url_for('network.index') }}">
+            home
+          </a>
+          <a class="action" href="{{ url_for('network.create') }}">
+            Dispositivos
+          </a>
+          <a href="{{ url_for('auth.logout') }}">Log Out</a>
+        </div>
       </div>
-    {% else %}
+      {% else %}
       <a href="{{ url_for('auth.register') }}">Register</a>
       <a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
+      {% endif %}
+    </div>
+  </nav>
+  
+  <div class="bodyContent">
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    <main>
+      <div class="mainContent">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+    
   </div>
-
-</nav>
-
-{% for message in get_flashed_messages() %}
-<div class="flash">{{ message }}</div>
-{% endfor %}
-
-<header>
-  {% block header %}{% endblock %}
-</header>
-
-<body>
-  <div class="container">
-    {% block content %}
-    {% endblock %}
-  </div>
+  <footer>
+    <p>Universidad autonoma de Guadalajara</p>
+    <p>© 2024 Todos los derechos reservados para mabby1110 </p>
+    <h1 class="switch_theme">🐝</h1>
+  </footer>
 </body>
-
-<footer>
-  <p>Universidad autonoma de Guadalajara</p>
-  <p>© 2024 Todos los derechos reservados para mabby1110 </p>
-  <h1 class="switch_theme">🐝</h1>
-</footer>
