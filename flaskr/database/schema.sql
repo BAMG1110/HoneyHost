@@ -1,4 +1,5 @@
--- Create the User table
+-- Drop and Create the User table
+DROP TABLE User;
 CREATE TABLE IF NOT EXISTS User (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
@@ -6,16 +7,18 @@ CREATE TABLE IF NOT EXISTS User (
     password TEXT NOT NULL
 );
 
--- Create the Branch table
+-- Drop and Create the Branch table
+DROP TABLE Branch;
 CREATE TABLE IF NOT EXISTS Branch (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL
 );
 
--- Create the Device table
+-- Drop and Create the Device table
+DROP TABLE Device;
 CREATE TABLE IF NOT EXISTS Device (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    host TEXT UNIQUE NOT NULL,
+    hostname TEXT UNIQUE NOT NULL,
     branch_id INTEGER NOT NULL,
     ip TEXT UNIQUE NOT NULL,
     device_type TEXT NOT NULL,
@@ -26,7 +29,8 @@ CREATE TABLE IF NOT EXISTS Device (
     FOREIGN KEY (branch_id) REFERENCES Branch(id)
 );
 
--- Create the UserBranchAccess junction table
+-- Drop and Create the UserBranchAccess junction table
+DROP TABLE UserBranchAccess;
 CREATE TABLE IF NOT EXISTS UserBranchAccess (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,

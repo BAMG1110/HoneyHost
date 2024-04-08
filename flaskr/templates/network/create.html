@@ -5,24 +5,31 @@
 {% endblock %}
 
 {% block content %}
+<div class="deviceContent">
+  {% for d in deviceList %}
+    {% for di in d %}
+      {{ di }}
+    {% endfor %}
+  {% endfor %}
+</div>
 <div class="crudDevContent">
   <form method="post">
     <label for="hostname">hostname</label>
     <input name="hostname" id="hostname" value="{{ request.form['hostname'] }}" required>
-    <label for="branch">branch</label>
-    <input name="branch" id="branch" value="{{ request.form['branch'] }}" required>
+    <label for="branch_id">branch_id</label>
+    <input name="branch_id" id="branch_id" value="{{ request.form['branch_id'] }}" required>
     <label for="ip">ip</label>
     <input name="ip" id="ip" value="{{ request.form['ip'] }}" required>
-    <label for="deviceType">deviceType</label>
-    <input name="deviceType" id="deviceType" value="{{ request.form['deviceType'] }}" required>
-    <label for="ios">ios</label>
-    <input name="ios" id="ios" value="{{ request.form['ios'] }}" required>
-    <label for="sshUser">sshUser</label>
-    <input name="sshUser" id="sshUser" value="{{ request.form['sshUser'] }}" required>
-    <label for="sshPassword">sshPassword</label>
-    <input name="sshPassword" id="sshPassword" value="{{ request.form['sshPassword'] }}" required>
-    <label for="sshSecret">sshSecret</label>
-    <input name="sshSecret" id="sshSecret" value="{{ request.form['sshSecret'] }}" required>
+    <label for="device_type">device_type</label>
+    <input name="device_type" id="device_type" value="{{ request.form['device_type'] }}" required>
+    <label for="operating_system">operating_system</label>
+    <input name="operating_system" id="operating_system" value="{{ request.form['operating_system'] }}" required>
+    <label for="username">username</label>
+    <input name="username" id="username" value="{{ request.form['username'] }}" required>
+    <label for="password">password</label>
+    <input name="password" id="password" value="{{ request.form['password'] }}" required>
+    <label for="secret">secret</label>
+    <input name="secret" id="secret" value="{{ request.form['secret'] }}" required>
 
     <input type="submit" value="Save">
   </form>
