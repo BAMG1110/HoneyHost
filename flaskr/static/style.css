@@ -103,11 +103,15 @@ footer {
 .authContent {
     grid-area: 1 / 3 / 2 / 5;
 }
-.userContent {
+.consoleContent {
     grid-area: 1 / 3 / -1 / -1;
 }
-
-
+.deviceContent {
+    grid-area: 1 / 1 / 2 / 3;
+}
+.crudDevContent {
+    grid-area: 1 / 3 / -1 / -1;
+}
 
 /* contenido componentes*/
 .profileImage {

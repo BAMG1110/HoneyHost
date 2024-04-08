@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
+  <h1>{% block title %}Network{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
+<div class="crudDevContent">
   <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+    <label for="hostname">hostname</label>
+    <input name="hostname" id="hostname" value="{{ request.form['hostname'] }}" required>
+    <label for="branch">branch</label>
+    <input name="branch" id="branch" value="{{ request.form['branch'] }}" required>
+    <label for="ip">ip</label>
+    <input name="ip" id="ip" value="{{ request.form['ip'] }}" required>
+    <label for="deviceType">deviceType</label>
+    <input name="deviceType" id="deviceType" value="{{ request.form['deviceType'] }}" required>
+    <label for="ios">ios</label>
+    <input name="ios" id="ios" value="{{ request.form['ios'] }}" required>
+    <label for="sshUser">sshUser</label>
+    <input name="sshUser" id="sshUser" value="{{ request.form['sshUser'] }}" required>
+    <label for="sshPassword">sshPassword</label>
+    <input name="sshPassword" id="sshPassword" value="{{ request.form['sshPassword'] }}" required>
+    <label for="sshSecret">sshSecret</label>
+    <input name="sshSecret" id="sshSecret" value="{{ request.form['sshSecret'] }}" required>
+
     <input type="submit" value="Save">
   </form>
+</div>
 {% endblock %}
