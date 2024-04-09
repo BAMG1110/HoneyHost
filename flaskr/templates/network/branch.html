@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Branch management{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="branchContent">
+  fetch all devices
+  or
+  fetch devices x branch
+</div>
+<div class="crudContent">
+  <div id="crud_branch_content" class="crudBranchContent">
+    <form method="post">
+      <label for="name">name</label>
+      <input name="name" id="name" value="{{ request.form['hostname'] }}" required>
+
+      <input type="submit" value="Save">
+    </form>
+  </div>
+</div>
+{% endblock %}

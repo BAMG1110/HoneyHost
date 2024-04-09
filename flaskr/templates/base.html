@@ -12,12 +12,22 @@
         <img class="profileImage" src="{{ url_for('static', filename='pp.jpg') }}" alt="profile picture">
         <div class="dropdownContent">
           <a class="action" href="{{ url_for('network.index') }}">
-            Home
-          </a>
-          <a class="action" href="{{ url_for('network.create') }}">
             Network
           </a>
-          <a href="{{ url_for('auth.logout') }}">Log Out</a>
+          <hr>
+          <br>
+          <a class="action" href="{{ url_for('network.manageUser') }}">
+            User
+          </a>
+          <a class="action" href="{{ url_for('network.manageDevice') }}">
+            Device
+          </a>
+          <a class="action" href="{{ url_for('network.manageBranch') }}">
+            Branch
+          </a>
+          <a href="{{ url_for('auth.logout') }}">
+            Log Out
+          </a>
         </div>
       </div>
       {% else %}
@@ -49,3 +59,5 @@
     <h1 class="switch_theme">🐝</h1>
   </footer>
 </body>
+
+<script src="{{ url_for('static', filename='util.js')}}"></script>
