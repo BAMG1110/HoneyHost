@@ -6,10 +6,8 @@
 
 {% block content %}
 <div class="deviceContent">
-  {% for d in deviceList %}
-    {% for di in d %}
-      {{ di }}
-    {% endfor %}
+  {% for device in deviceList %}
+    {{ device['hostname']}}
   {% endfor %}
 </div>
 <div class="crudDevContent">

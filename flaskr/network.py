@@ -23,6 +23,8 @@ def index():
 def create():
 
     deviceList = get_devices()
+    for row in deviceList:
+        print(row['hostname'])
 
     if request.method == 'POST':
         print(request.form)
@@ -56,6 +58,7 @@ def create():
             db.commit()
         except db.IntegrityError:
             print(f"error al registrar un dispositivo nuevo: {db.IntegrityError}")
+            return redirect(url_for('create'))
 
     return render_template('network/create.html', deviceList = deviceList)
 
@@ -105,7 +108,7 @@ def get_devices():
                 SELECT *
                 FROM Device
             """
-        )
+        ).fetchall()
     except db.IntegrityError:
         print('error al obtener la lista de dispositivos')
 
