@@ -16,7 +16,7 @@ def register():
         password = request.form['password']
         email = request.form['email']
         print('registro:', email, username, password)
-        db = get_db()
+
         error = None
 
         if not username:
@@ -25,19 +25,13 @@ def register():
             error = 'Password is required.'
 
         if error is None:
-            try:
-                params = (username, email, generate_password_hash(password))
-                db.execute(
-                    "INSERT INTO user (username, email, password) VALUES (?, ?, ?)",
-                    params
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
+            query = "INSERT INTO user (username, email, password) VALUES (?, ?, ?)"
+            params = (username, email, generate_password_hash(password))
+            db_handler(query, params)
+        else:
+            flash(error)
 
-        flash(error)
+        return redirect(url_for("auth.login"))
 
     return render_template('auth/register.html')
 
@@ -47,22 +41,25 @@ def login():
         username = request.form['username']
         password = request.form['password']
         print('login:', username, password)
-        db = get_db()
+
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username)
-        ).fetchone()
+        query = 'SELECT * FROM User WHERE username = ?'
+
+        user = db_handler(query, username)
+
+
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
-        if error is None:
+        else:
             session.clear()
             session['user_id'] = user['id']
             return redirect(url_for('index'))
-
+        
         flash(error)
+
 
     return render_template('auth/login.html')
 
@@ -92,3 +89,13 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+def db_handler(query, params):
+    db = get_db()
+    try:
+        r = db.execute(query, params).fetchone()
+        db.commit()
+        return r
+    except db.IntegrityError:
+        r = f"Error {db.IntegrityError}"
+        return None

@@ -1,5 +1,5 @@
 -- Drop and Create the User table
-DROP TABLE User;
+DROP TABLE IF EXISTS User;
 CREATE TABLE IF NOT EXISTS User (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
@@ -8,14 +8,14 @@ CREATE TABLE IF NOT EXISTS User (
 );
 
 -- Drop and Create the Branch table
-DROP TABLE Branch;
+DROP TABLE IF EXISTS Branch;
 CREATE TABLE IF NOT EXISTS Branch (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL
 );
 
 -- Drop and Create the Device table
-DROP TABLE Device;
+DROP TABLE IF EXISTS Device;
 CREATE TABLE IF NOT EXISTS Device (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     hostname TEXT UNIQUE NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Device (
 );
 
 -- Drop and Create the UserBranchAccess junction table
-DROP TABLE UserBranchAccess;
+DROP TABLE IF EXISTS UserBranchAccess;
 CREATE TABLE IF NOT EXISTS UserBranchAccess (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
