@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, json, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
 
@@ -143,6 +143,8 @@ def delete(id):
     db.commit()
     return redirect(url_for('network.index'))
 
+@bp.route("/api/devices", methods=['GET', 'POST'])
+@login_required
 def get_devices():
     deviceList = []
 
@@ -150,29 +152,16 @@ def get_devices():
         db = get_db()
         deviceList = get_db().execute(
             """
-                SELECT DISTINCT name
+                SELECT *
                 FROM Device
-                JOIN Branch ON Device.branch_id = Branch.id
             """
         ).fetchall()
     except db.IntegrityError:
         print('error al obtener la lista de dispositivos')
 
     print('dispositivos', deviceList)
-    return deviceList
+    results = [tuple(row) for row in deviceList]
+    print(f"{type(results)} of type {type(results[0])}")
+    # <class 'list'> of type <class 'tuple'>
 
-def get_post(id, check_author=True):
-    post = get_db().execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
-        (id,)
-    ).fetchone()
-
-    if post is None:
-        abort(404, f"Post id {id} doesn't exist.")
-
-    if check_author and post['author_id'] != g.user['id']:
-        abort(403)
-
-    return post
+    return json.dumps(results)

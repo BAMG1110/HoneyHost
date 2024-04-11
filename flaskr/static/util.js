@@ -292,13 +292,14 @@ async function fetchDevices() {
 
     // ping a todos los dispositivos registrados
     // estado: pendiente > conectado/desconectado
-    for (s in dispositivos){
-        for(td in dispositivos[s]){
-            for(d in dispositivos[s][td]){
-                ping(dispositivos[s][td][d])
-            }
-        }
-    }
+    // for (s in dispositivos){
+    //     for(td in dispositivos[s]){
+    //         for(d in dispositivos[s][td]){
+    //             ping(dispositivos[s][td][d])
+    //         }
+    //     }
+    // }
 }
 
+fetchDevices()
 switchTheme()
