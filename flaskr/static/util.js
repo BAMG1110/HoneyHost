@@ -184,54 +184,24 @@ function loadText(obj, e, id_consola){
 
 // creacion de componentes
 function createList(devices){
-    const lista_dispositivos = document.getElementById('lista_dispositivos')
+    const lista_dispositivos = document.getElementById('device_content')
+    
+    const container = document.createElement('div')
 
-    for (const branch in devices) {
-        const branchHeader = document.createElement('h3');
-        branchHeader.textContent = branch;
+    for (const device in devices) {
+        console.log(devices[device])
 
-        const sucursalDiv = document.createElement('div');
-        sucursalDiv.setAttribute("id", branch)
-        sucursalDiv.classList.add('sucursal');
+        const hostname = document.createElement('h3');
+        hostname.textContent = devices[device][1];
 
-        for (const deviceType in devices[branch]) {
-            const tipoDispositivoDiv = document.createElement('div');
-            tipoDispositivoDiv.setAttribute("id", branch+'_'+deviceType)
-            tipoDispositivoDiv.classList.add('lista_dispositivos', 'hover');
-            tipoDispositivoDiv.addEventListener('click', addMultipleHost);
-            tipoDispositivoDiv.addEventListener('contextmenu', removeMultipleHost)
-
-            const deviceTypeHeader = document.createElement('h4');
-            deviceTypeHeader.classList.add('tipo_dispositivo');
-            deviceTypeHeader.textContent = deviceType;
-
-            tipoDispositivoDiv.appendChild(deviceTypeHeader);
-            
-            for (const host in devices[branch][deviceType]) {
-                const hostname  = devices[branch][deviceType][host]['info']['host']
-                const hostItem = document.createElement('div');
-                hostItem.classList.add('dispositivo', 'hover');
-                hostItem.setAttribute("id", hostname+'_'+host)
-                hostItem.addEventListener('click', addHost);
-                hostItem.addEventListener('contextmenu', removeHost)
-                
-                const hostName = document.createElement('p');
-                hostName.textContent = devices[branch][deviceType][host]['info']['host'];
-                
-                const hostIP = document.createElement('p');
-                hostIP.textContent = devices[branch][deviceType][host]['info']['ip'];
-                
-                hostItem.appendChild(hostName);
-                hostItem.appendChild(hostIP);
-                
-                tipoDispositivoDiv.appendChild(hostItem);
-            }
-            
-            sucursalDiv.appendChild(tipoDispositivoDiv);
-        }
-        lista_dispositivos.appendChild(branchHeader);
-        lista_dispositivos.appendChild(sucursalDiv);
+        const ip = document.createElement('p');
+        ip.textContent = devices[device][3];
+        
+        container.appendChild(hostname);
+        container.appendChild(ip);
     }
+
+    lista_dispositivos.appendChild(container)
 }
 function createConsole(host){
     const consola_individual = document.getElementById('consola_individual')
@@ -285,7 +255,6 @@ async function conectar(d){
 async function fetchDevices() {
     const response = await fetch("/api/devices");
     dispositivos = await response.json();
-
     // se muestran los dispositivos registrados
     // estado: desconectado
     createList(dispositivos)

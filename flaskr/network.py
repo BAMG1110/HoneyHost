@@ -107,42 +107,6 @@ def manageUser():
     ).fetchall()
     return render_template('network/user.html', users=users)
 
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
-@login_required
-def update(id):
-    post = get_post(id)
-
-    if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
-        error = None
-
-        if not title:
-            error = 'Title is required.'
-
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                'UPDATE post SET title = ?, body = ?'
-                ' WHERE id = ?',
-                (title, body, id)
-            ).fetchall()
-            db.commit()
-            return redirect(url_for('network.index'))
-
-    return render_template('network/update.html', post=post)
-
-@bp.route('/<int:id>/delete', methods=('POST',))
-@login_required
-def delete(id):
-    get_post(id)
-    db = get_db()
-    db.execute('DELETE FROM post WHERE id = ?', (id,))
-    db.commit()
-    return redirect(url_for('network.index'))
-
 @bp.route("/api/devices", methods=['GET', 'POST'])
 @login_required
 def get_devices():

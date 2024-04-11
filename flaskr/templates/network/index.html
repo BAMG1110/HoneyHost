@@ -5,17 +5,11 @@
 {% endblock %}
 
 {% block content %}
-  <div class="lista_dispositivos">
+  <div id='device_content' class="deviceContent">
     jerarquia de dispositivos
     branch>device type>hostname
   </div>
-  <div id="lista_consolas" class="componente consolas scrollB">
-    <h2 id="titulo_consola" class="hidden">Consola individual</h2>
-    <div id="default_view">
-        <p>selecciona un tipo de consola <h1>☝️</h1></p>
-    </div>
-    <div id="consola_individual" class="scrollB hidden"></div>
-    <div id="consola_global" class="scrollB hidden"></div>
-    <div id="buscador_macad" class="scrollB hidden">buscador de mac-address</div>
+  <div class="consoleContent">
+    consolas
   </div>
 {% endblock %}
