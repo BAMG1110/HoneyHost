@@ -45,7 +45,7 @@ def login():
         error = None
         query = 'SELECT * FROM User WHERE username = ?'
 
-        user = db_handler(query, username)
+        user = db_handler(query, [username])
 
 
         if user is None:
