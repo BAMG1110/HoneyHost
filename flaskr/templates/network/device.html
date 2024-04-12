@@ -5,10 +5,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="deviceContent">
-  fetch all devices
-  or
-  fetch devices x branch
+<div id="device_list_Content" class="deviceListContent">
+
 </div>
 <div class="crudContent"> 
   <div id="crud_device_content" class="crudDeviceContent">
@@ -16,7 +14,9 @@
       <label for="hostname">hostname</label>
       <input name="hostname" id="hostname" value="{{ request.form['hostname'] }}" required>
       <label for="branch_id">branch_id</label>
-      <input name="branch_id" id="branch_id" value="{{ request.form['branch_id'] }}" required>
+      <select name="branch_id" id="branch_id" required>
+        <!-- Las opciones se generarán dinámicamente con JavaScript -->
+      </select>
       <label for="ip">ip</label>
       <input name="ip" id="ip" value="{{ request.form['ip'] }}" required>
       <label for="device_type">device_type</label>
@@ -34,4 +34,6 @@
     </form>
   </div>
 </div>
+
+<script src="{{ url_for('static', filename='deviceUtil.js')}}"></script>
 {% endblock %}

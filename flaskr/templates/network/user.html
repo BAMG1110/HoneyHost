@@ -6,17 +6,17 @@
 
 {% block content %}
     <div class="deviceContent">
-        hola
+        {% for u in users %}
+            <h1>{{ u['id'] }}</h1>
+            <p>{{ u['username'] }}</p>
+            <p>{{ u['email'] }}</p>
+            <p>{{ u['password'] }}</p>
+            {% if not loop.last %}
+            <hr>
+            {% endif %}
+        {% endfor %}
     </div>
     <div class="consoleContent">
-    {% for u in users %}
-        <h1>{{ u['id'] }}</h1>
-        <p>{{ u['username'] }}</p>
-        <p>{{ u['email'] }}</p>
-        <p>{{ u['password'] }}</p>
-        {% if not loop.last %}
-        <hr>
-        {% endif %}
-    {% endfor %}
+        
     </div>
 {% endblock %}

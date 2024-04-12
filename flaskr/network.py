@@ -16,10 +16,6 @@ def index():
 @bp.route('/manageDevice', methods=('GET', 'POST'))
 @login_required
 def manageDevice():
-    deviceList = get_devices()
-    for row in deviceList:
-        print(row['hostname'])
-
     if request.method == 'POST':
         print(request.form)
 
@@ -58,10 +54,6 @@ def manageDevice():
 @bp.route('/manageBranch', methods=('GET', 'POST'))
 @login_required
 def manageBranch():
-    deviceList = get_devices()
-    for row in deviceList:
-        print(row['hostname'])
-
     if request.method == 'POST':
         print(request.form)
 
@@ -69,33 +61,19 @@ def manageBranch():
             db = get_db()
             db.execute(
                 """
-                    INSERT INTO Device (
-                        hostname,
-                        branch_id,
-                        ip,
-                        device_type,
-                        operating_system,
-                        username,
-                        password,
-                        secret
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO Branch (
+                        name
+                    ) VALUES (?)
                 """,
                 (
-                    request.form['hostname'],
-                    request.form['branch_id'],
-                    request.form['ip'],
-                    request.form['device_type'],
-                    request.form['operating_system'],
-                    request.form['username'],
-                    request.form['password'],
-                    request.form['secret'],
+                    request.form['name'],
                 )
             )
             db.commit()
         except db.IntegrityError:
-            print(f"error al registrar un dispositivo nuevo: {db.IntegrityError}")
+            print(f"error al registrar una sucursal nueva: {db.IntegrityError}")
 
-    return render_template('network/branch.html', deviceList = deviceList)
+    return render_template('network/branch.html')
 
 @bp.route('/manageUser', methods=('GET', 'POST'))
 @login_required
@@ -123,9 +101,30 @@ def get_devices():
     except db.IntegrityError:
         print('error al obtener la lista de dispositivos')
 
-    print('dispositivos', deviceList)
     results = [tuple(row) for row in deviceList]
-    print(f"{type(results)} of type {type(results[0])}")
+    # <class 'list'> of type <class 'tuple'>
+
+    return json.dumps(results)
+
+@bp.route("/api/branches", methods=['GET', 'POST'])
+@login_required
+def get_branches():
+    branchList = []
+
+    try:
+        db = get_db()
+        branchList = get_db().execute(
+            """
+                SELECT *
+                FROM Branch
+            """
+        ).fetchall()
+    except db.IntegrityError:
+        print('error al obtener la lista de sucursales')
+
+    print('sucursales', branchList)
+    results = [tuple(row) for row in branchList]
+    # print(f"{type(results)} of type {type(results[0])}")
     # <class 'list'> of type <class 'tuple'>
 
     return json.dumps(results)
