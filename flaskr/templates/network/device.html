@@ -6,34 +6,30 @@
 
 {% block content %}
 <div id="device_list_content" class="deviceListContent">
-
+  <!-- Las opciones se generarán dinámicamente con JavaScript -->
 </div>
-<div class="crudContent"> 
-  <div id="crud_device_content" class="crudDeviceContent">
-    <form method="post">
-      <label for="hostname">hostname</label>
-      <input name="hostname" id="hostname" value="{{ request.form['hostname'] }}" required>
-      <label for="branch_id">branch_id</label>
-      <select name="branch_id" id="branch_id" required>
-        <!-- Las opciones se generarán dinámicamente con JavaScript -->
-      </select>
-      <label for="ip">ip</label>
-      <input name="ip" id="ip" value="{{ request.form['ip'] }}" required>
-      <label for="device_type">device_type</label>
-      <input name="device_type" id="device_type" value="{{ request.form['device_type'] }}" required>
-      <label for="operating_system">operating_system</label>
-      <input name="operating_system" id="operating_system" value="{{ request.form['operating_system'] }}" required>
-      <label for="username">username</label>
-      <input name="username" id="username" value="{{ request.form['username'] }}" required>
-      <label for="password">password</label>
-      <input name="password" id="password" value="{{ request.form['password'] }}" required>
-      <label for="secret">secret</label>
-      <input name="secret" id="secret" value="{{ request.form['secret'] }}" required>
-  
-      <input type="submit" value="Save">
-    </form>
-  </div>
-</div>
+<div id="crud_device_content" class="crudDeviceContent">
+  <form method="post">
+    <label for="hostname">hostname</label>
+    <input name="hostname" id="hostname" value="{{ request.form['hostname'] }}" required>
+    <label for="branch_id">branch_id</label>
+    <select name="branch_id" id="branch_id" required>
+      <!-- Las opciones se generarán dinámicamente con JavaScript -->
+    </select>
+    <label for="ip">ip</label>
+    <input name="ip" id="ip" value="{{ request.form['ip'] }}" required>
+    <label for="device_type">device_type</label>
+    <input name="device_type" id="device_type" value="{{ request.form['device_type'] }}" required>
+    <label for="operating_system">operating_system</label>
+    <input name="operating_system" id="operating_system" value="{{ request.form['operating_system'] }}" required>
+    <label for="username">username</label>
+    <input name="username" id="username" value="{{ request.form['username'] }}" required>
+    <label for="password">password</label>
+    <input name="password" id="password" value="{{ request.form['password'] }}" required>
+    <label for="secret">secret</label>
+    <input name="secret" id="secret" value="{{ request.form['secret'] }}" required>
 
-<script src="{{ url_for('static', filename='deviceUtil.js')}}"></script>
+    <input type="submit" value="Save">
+  </form>
+</div>
 {% endblock %}

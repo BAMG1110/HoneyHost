@@ -1,3 +1,4 @@
+let deviceList = deviceList
 let showDivA = true;
 let dispositivos_seleccionados = []
 let dispositivos
