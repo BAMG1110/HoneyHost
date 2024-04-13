@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, json, g, redirect, render_template, request, url_for
+    Blueprint, flash, jsonify, json, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
 
@@ -89,6 +89,7 @@ def manageUser():
 @login_required
 def get_devices():
     deviceList = []
+    result = []
 
     try:
         db = get_db()
@@ -98,13 +99,22 @@ def get_devices():
                 FROM Device
             """
         ).fetchall()
+        branchList = get_db().execute(
+            """
+                SELECT *
+                FROM Branch
+            """
+        ).fetchall()
+        branch_map = {branch[0]: {"name": branch[1], "devices": []} for branch in branchList}
+
+        for device in deviceList:
+            if device[2] in branch_map:
+                branch_map[device[2]]['devices'].append(dict(device))
+
     except db.IntegrityError:
         print('error al obtener la lista de dispositivos')
 
-    results = [tuple(row) for row in deviceList]
-    # <class 'list'> of type <class 'tuple'>
-
-    return json.dumps(results)
+    return jsonify(branch_map)
 
 @bp.route("/api/branches", methods=['GET', 'POST'])
 @login_required
@@ -122,8 +132,7 @@ def get_branches():
     except db.IntegrityError:
         print('error al obtener la lista de sucursales')
 
-    print('sucursales', branchList)
-    results = [tuple(row) for row in branchList]
+    results = [dict(row) for row in branchList]
     # print(f"{type(results)} of type {type(results[0])}")
     # <class 'list'> of type <class 'tuple'>
 
