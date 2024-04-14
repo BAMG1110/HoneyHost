@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content %}
-  <div id='device_content' class="deviceContent">
-    jerarquia de dispositivos
-    branch>device type>hostname
-  </div>
-  <div class="consoleContent">
-    consolas
-  </div>
+<div id='list_content' class="listContent">
+  <!-- Las opciones se generarán dinámicamente con JavaScript -->
+</div>
+<div id="console_content" class="consoleContent">
+  consolas
+</div>
+<script src="{{ url_for('static', filename='homeUtil.js')}}"></script>
 {% endblock %}

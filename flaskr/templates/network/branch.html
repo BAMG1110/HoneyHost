@@ -5,15 +5,16 @@
 {% endblock %}
 
 {% block content %}
-<div id="branch_list_content" class="branchListContent"></div>
-  <div id="crud_branch_content" class="crudBranchContent">
-    <form method="post">
-      <label for="name">name</label>
-      <input name="name" id="name" required>
+<div id='list_content' class="listContent">
+  <!-- Las opciones se generarán dinámicamente con JavaScript -->
+</div>
+<div id="form_content" class="formContent">
+  <form method="post">
+    <label for="name">name</label>
+    <input name="name" id="name" required>
 
-      <input type="submit" value="Save">
-    </form>
-  </div>
+    <input type="submit" value="Save">
+  </form>
 </div>
 
 <script src="{{ url_for('static', filename='branchUtil.js')}}"></script>

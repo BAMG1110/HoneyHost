@@ -1,4 +1,3 @@
-let deviceList = deviceList
 let showDivA = true;
 let dispositivos_seleccionados = []
 let dispositivos
@@ -172,21 +171,48 @@ async function conectar(d){
     console.log('conectando ...', d)
 }
 
-// al iniciar
-async function fetchDevices() {
-    const response = await fetch("/api/devices");
-    dispositivos = await response.json();
-    // se muestran los dispositivos registrados
-    // estado: desconectado
-    createList(dispositivos)
+function createDeviceList() {
+    let device_list_content = document.getElementById('list_content')
+    for (const branch in deviceList){
+        const branchContainer = document.createElement('div')
+        
+        const branchName = document.createElement('h3')
+        branchName.textContent = deviceList[branch]['name']
+        branchContainer.appendChild(branchName)
+        
+        for (const device in deviceList[branch]['devices']){
+            let deviceInfo = [
+                deviceList[branch]['devices'][device]['device_type'],
+                deviceList[branch]['devices'][device]['ip']
+            ]
 
-    // ping a todos los dispositivos registrados
-    // estado: pendiente > conectado/desconectado
-    // for (s in dispositivos){
-    //     for(td in dispositivos[s]){
-    //         for(d in dispositivos[s][td]){
-    //             ping(dispositivos[s][td][d])
-    //         }
-    //     }
-    // }
+            const deviceContainer = document.createElement('div')
+            deviceContainer.classList.add('dispositivo', 'hover', 'bgRed')
+            deviceContainer.setAttribute("id", deviceInfo[1]+'_'+deviceInfo[2])
+            // deviceContainer.addEventListener('click', addHost)
+            // deviceContainer.addEventListener('contextmenu', removeHost)
+
+            const hostname = document.createElement('p')
+            hostname.textContent = deviceList[branch]['devices'][device]['hostname']
+
+            const ip = document.createElement('p')
+            ip.textContent = deviceList[branch]['devices'][device]['ip']
+
+            deviceContainer.appendChild(hostname)
+            deviceContainer.appendChild(ip)
+            
+            branchContainer.appendChild(deviceContainer)
+        }
+
+        device_list_content.appendChild(branchContainer)
+    }
 }
+
+async function fetchDevices(){
+    const response = await fetch("/api/devices")
+    let deviceList = await response.json()
+    console.log('fetchDevices: ', deviceList)
+    return deviceList
+}
+
+console.log('networkUtil')

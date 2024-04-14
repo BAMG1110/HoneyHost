@@ -107,21 +107,16 @@ footer {
 .authContent {
     grid-area: 1 / 3 / 2 / 5;
 }
+.formContent {
+    grid-area: 1 / 3 / -1 / -1;
+}
 .consoleContent {
     grid-area: 1 / 3 / -1 / -1;
 }
-.deviceContent {
-    grid-area: 1 / 1 / 2 / 3;
+.listContent {
+    grid-area: 1 / 1 / -1 / 3;
 }
-.crudDevContent {
-    grid-area: 1 / 3 / -1 / -1;
-}
-.deviceListContent {
-    grid-area: 1 / 1 / 2 / 3;
-}
-.crudDeviceContent{
-    grid-area: 1 / 3 / -1 / -1;
-}
+
 /* contenido componentes*/
 .profileImage {
     width: 3rem;

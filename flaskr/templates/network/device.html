@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<div id="device_list_content" class="deviceListContent">
+<div id='list_content' class="listContent">
   <!-- Las opciones se generarán dinámicamente con JavaScript -->
 </div>
-<div id="crud_device_content" class="crudDeviceContent">
+<div id="form_content" class="formContent">
   <form method="post">
     <label for="hostname">hostname</label>
     <input name="hostname" id="hostname" value="{{ request.form['hostname'] }}" required>
@@ -32,4 +32,6 @@
     <input type="submit" value="Save">
   </form>
 </div>
+
+<script src="{{ url_for('static', filename='deviceUtil.js')}}"></script>
 {% endblock %}

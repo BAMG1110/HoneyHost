@@ -1,7 +1,11 @@
 <!doctype html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>{% block title %}{% endblock %} - Flaskr</title>
-
+<head>
+{% if g.user %}
+  <script src="{{ url_for('static', filename='networkUtil.js')}}"></script>
+{% endif %}
+</head>
 <body>
   <nav>
     <div class="logo" style="display: flex; gap: 0.5rem;">
@@ -66,5 +70,4 @@
     <h1 class="switch_theme">🐝</h1>
   </footer>
 </body>
-
 <script src="{{ url_for('static', filename='util.js')}}"></script>
