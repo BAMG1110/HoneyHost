@@ -110,7 +110,7 @@ function createDeviceList() {
 
             const deviceContainer = document.createElement('div')
             deviceContainer.classList.add('dispositivo', 'hover', 'bgRed')
-            deviceContainer.setAttribute("id", deviceInfo[0]+'_'+deviceInfo[1])
+            deviceContainer.setAttribute("id", deviceInfo[1])
             deviceContainer.addEventListener('click', addHost)
             // deviceContainer.addEventListener('contextmenu', removeHost)
 
@@ -131,24 +131,50 @@ function createDeviceList() {
 }
 
 function createConsole(host){
-    const consola_individual = document.getElementById('console_content')
+    const view_content = document.getElementById('view_content')
 
-    const consolaDiv = document.createElement('div');
-    consolaDiv.addEventListener('click', showConsole);
-    consolaDiv.addEventListener('contextmenu', removeHost);
-    consolaDiv.setAttribute('id', 'div_'+host)
-    consolaDiv.classList.add('consola', 'hover');
+    // encontrar datos en la lista de dispositivos
+    for(const branch in deviceList){
+        for(const device in deviceList[branch]['devices']){
+            if(deviceList[branch]['devices'][device]['ip'] == host){
+                deviceInfo = deviceList[branch]['devices'][device]
+                break
+            }
+        }
+    }
+
+    console.log('deviceInfo', deviceInfo)
+    const consoleDiv = document.createElement('div');
+    consoleDiv.addEventListener('click', showConsole);
+    consoleDiv.addEventListener('contextmenu', removeHost);
+    consoleDiv.setAttribute('id', 'div_'+host)
+    consoleDiv.classList.add('consola', 'hover');
     
-    const consolaTA = document.createElement('textarea')
-    consolaTA.setAttribute('id', 'consola_'+host)
-    consolaTA.classList.add('hidden', 'code_area')
+    const header = document.createElement('div');
+    header.classList.add('consoleHeader');
     
-    const consoleHeader = document.createElement('h3');
-    consoleHeader.textContent = host;
+    const hostname = document.createElement('h3')
+    hostname.textContent = deviceInfo['hostname']
+    header.appendChild(hostname)
+
+    const deviceType = document.createElement('p')
+    deviceType.textContent = 'tipo: ' + deviceInfo['device_type']
+    header.appendChild(deviceType)
+
+    const ip = document.createElement('p')
+    ip.textContent = 'ip: ' + deviceInfo['ip']
+    header.appendChild(ip)
+
+
+    const textArea = document.createElement('textarea')
+    textArea.setAttribute('id', 'consola_'+host)
+    textArea.classList.add('hidden', 'code_area')
     
-    consolaDiv.appendChild(consoleHeader);
-    consolaDiv.appendChild(consolaTA)
-    consola_individual.appendChild(consolaDiv)
+    
+    consoleDiv.appendChild(header);
+    consoleDiv.appendChild(textArea)
+
+    view_content.appendChild(consoleDiv)
 }
 
 // peticiones al servidor
