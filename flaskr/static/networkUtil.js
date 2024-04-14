@@ -3,17 +3,6 @@ let dispositivos_seleccionados = []
 let dispositivos
 
 // funciones dinamicas
-function toggleView(event){
-    event.preventDefault();
-    const divA = document.getElementById('consola_global');
-    const divB = document.getElementById('consola_individual');
-    const titulo = document.getElementById('titulo_consola')
-
-    showDivA = !showDivA;
-    titulo.innerHTML = showDivA? 'Consola induvidual':'Consola global'
-    divB.classList.toggle('hidden', !showDivA);
-    divA.classList.toggle('hidden', showDivA);
-}
 function showConsole(event){
     for (const child of event.target.children) {
         if (child.classList.contains('code_area')) {
@@ -24,7 +13,6 @@ function showConsole(event){
             }
         }
     }
-    // divB.classList.toggle('hidden', !showDivA);
 }
 function addHost(event) {
     host = event.target.id
