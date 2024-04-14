@@ -34,7 +34,6 @@ button {
 h1, h2, h3 {
     cursor: pointer;
     color: var(--header-font);
-    pointer-events: none;
 }
 p {
     pointer-events: none;

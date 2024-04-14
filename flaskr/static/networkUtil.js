@@ -28,11 +28,12 @@ function showConsole(event){
 }
 function addHost(event) {
     host = event.target.id
-    id = 'consola_'+host
+    console.log('addHost: ', host)
+    // id = 'consola_'+host
 
     // se crea elemento consola
     const contenedor = document.createElement('div');
-    contenedor.setAttribute("id", id)
+    contenedor.setAttribute("id", 'consola_'+host)
     contenedor.classList.add('consola');
 
     const branchHeader = document.createElement('p');
@@ -47,7 +48,7 @@ function addHost(event) {
         
         console.log('add', host, dispositivos_seleccionados)
     }
-    conectar(host)
+    // conectar(host)
 }
 function removeHost(event) {
     event.preventDefault();
@@ -103,28 +104,45 @@ function loadText(obj, e, id_consola){
 }
 
 // creacion de componentes
-function createList(devices){
-    const lista_dispositivos = document.getElementById('device_content')
-    
-    const container = document.createElement('div')
-
-    for (const device in devices) {
-        console.log(devices[device])
-
-        const hostname = document.createElement('h3');
-        hostname.textContent = devices[device][1];
-
-        const ip = document.createElement('p');
-        ip.textContent = devices[device][3];
+function createDeviceList() {
+    let device_list_content = document.getElementById('list_content')
+    for (const branch in deviceList){
+        const branchContainer = document.createElement('div')
         
-        container.appendChild(hostname);
-        container.appendChild(ip);
-    }
+        const branchName = document.createElement('h3')
+        branchName.textContent = deviceList[branch]['name']
+        branchContainer.appendChild(branchName)
+        
+        for (const device in deviceList[branch]['devices']){
+            let deviceInfo = [
+                deviceList[branch]['devices'][device]['device_type'],
+                deviceList[branch]['devices'][device]['ip']
+            ]
 
-    lista_dispositivos.appendChild(container)
+            const deviceContainer = document.createElement('div')
+            deviceContainer.classList.add('dispositivo', 'hover', 'bgRed')
+            deviceContainer.setAttribute("id", deviceInfo[0]+'_'+deviceInfo[1])
+            deviceContainer.addEventListener('click', addHost)
+            // deviceContainer.addEventListener('contextmenu', removeHost)
+
+            const hostname = document.createElement('p')
+            hostname.textContent = deviceList[branch]['devices'][device]['hostname']
+
+            const ip = document.createElement('p')
+            ip.textContent = deviceList[branch]['devices'][device]['ip']
+
+            deviceContainer.appendChild(hostname)
+            deviceContainer.appendChild(ip)
+            
+            branchContainer.appendChild(deviceContainer)
+        }
+
+        device_list_content.appendChild(branchContainer)
+    }
 }
+
 function createConsole(host){
-    const consola_individual = document.getElementById('consola_individual')
+    const consola_individual = document.getElementById('console_content')
 
     const consolaDiv = document.createElement('div');
     consolaDiv.addEventListener('click', showConsole);
@@ -169,43 +187,6 @@ async function ping(d){
 async function conectar(d){
 
     console.log('conectando ...', d)
-}
-
-function createDeviceList() {
-    let device_list_content = document.getElementById('list_content')
-    for (const branch in deviceList){
-        const branchContainer = document.createElement('div')
-        
-        const branchName = document.createElement('h3')
-        branchName.textContent = deviceList[branch]['name']
-        branchContainer.appendChild(branchName)
-        
-        for (const device in deviceList[branch]['devices']){
-            let deviceInfo = [
-                deviceList[branch]['devices'][device]['device_type'],
-                deviceList[branch]['devices'][device]['ip']
-            ]
-
-            const deviceContainer = document.createElement('div')
-            deviceContainer.classList.add('dispositivo', 'hover', 'bgRed')
-            deviceContainer.setAttribute("id", deviceInfo[1]+'_'+deviceInfo[2])
-            // deviceContainer.addEventListener('click', addHost)
-            // deviceContainer.addEventListener('contextmenu', removeHost)
-
-            const hostname = document.createElement('p')
-            hostname.textContent = deviceList[branch]['devices'][device]['hostname']
-
-            const ip = document.createElement('p')
-            ip.textContent = deviceList[branch]['devices'][device]['ip']
-
-            deviceContainer.appendChild(hostname)
-            deviceContainer.appendChild(ip)
-            
-            branchContainer.appendChild(deviceContainer)
-        }
-
-        device_list_content.appendChild(branchContainer)
-    }
 }
 
 async function fetchDevices(){
