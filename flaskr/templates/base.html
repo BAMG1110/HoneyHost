@@ -16,6 +16,14 @@
         </a>
       </h3>
     </div>
+    <div class="views">
+      <a class="action" href="{{ url_for('network.index') }}">
+        Network
+      </a>
+      <a class="action" href="{{ url_for('network.automatization') }}">
+        Automatization
+      </a>
+    </div>
 
     <div class="userOptions">
       {% if g.user %}
@@ -23,9 +31,6 @@
       <div class="dropdown">
         <img class="profileImage" src="{{ url_for('static', filename='pp.jpg') }}" alt="profile picture">
         <div class="dropdownContent">
-          <a class="action" href="{{ url_for('network.index') }}">
-            Network
-          </a>
           <a class="action" href="{{ url_for('network.manageUser') }}">
             Users
           </a>

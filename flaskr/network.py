@@ -13,6 +13,11 @@ bp = Blueprint('network', __name__)
 def index():
     return render_template('network/index.html')
 
+@bp.route('/automatization')
+@login_required
+def automatization():
+    return render_template('network/automatization.html')
+
 @bp.route('/manageDevice', methods=('GET', 'POST'))
 @login_required
 def manageDevice():
@@ -85,6 +90,7 @@ def manageUser():
     ).fetchall()
     return render_template('network/user.html', users=users)
 
+# API
 @bp.route("/api/devices", methods=['GET', 'POST'])
 @login_required
 def get_devices():
