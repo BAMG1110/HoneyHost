@@ -1,10 +1,12 @@
 from flask import (
-    Blueprint, flash, jsonify, json, g, redirect, render_template, request, url_for
+    Blueprint, flash, jsonify, json, session, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
 from flaskr.database.db import get_db
+
+from flaskr.netmiko import exec_comand
 
 bp = Blueprint('network', __name__)
 
@@ -140,17 +142,18 @@ def get_branches():
         print('error al obtener la lista de sucursales')
 
     results = [dict(row) for row in branchList]
-    # print(f"{type(results)} of type {type(results[0])}")
-    # <class 'list'> of type <class 'tuple'>
 
     return json.dumps(results)
 
 @bp.route("/api/exec", methods=['GET', 'POST'])
 @login_required
 def exec():
+    print(session)
     ip = request.json
     device = get_device_by_ip(ip)
     device = dict(device)
+    exec_comand(device)
+
     return jsonify({'device':[]})
 
 def get_device_by_ip(ip):

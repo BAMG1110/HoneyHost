@@ -47,7 +47,6 @@ def login():
 
         user = db_handler(query, [username])
 
-
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
@@ -56,6 +55,12 @@ def login():
         else:
             session.clear()
             session['user_id'] = user['id']
+            session['user_device'] = {
+                # registrar y obtener dispositivo de administracion en la bd
+                # placeholder
+                'info':'192.168.70.1',
+                'conn': None
+            }
             return redirect(url_for('index'))
         
         flash(error)

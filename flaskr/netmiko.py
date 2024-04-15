@@ -1,24 +1,33 @@
 from netmiko import ConnectHandler
 
 def exec_comand(device):
+    netConn = {
+        'info':{
+            'device_type': device['operating_system'],
+            "ip": device['ip'],
+            'host': device['hostname'],
+            'username': device['username'],
+            "password": device['password'],
+            'secret': device['secret']
+        },
+        'conn': None
+    }
     try:
-        conn =  ConnectHandler(**device['info'])
+        conn =  ConnectHandler(**netConn)
         conn.enable()
         host = conn.find_prompt()
         
         device['conn'] = conn
-        print(f"conectado a {device['info']['host']}")
+        print(f"conectado a {netConn['info']['host']}")
     
     except Exception as e:
-        print(f"falló conexion con {device['info']['host']}")
-        device['conn'] = False
-    # device['conn'] = True
+        print(f"falló conexion con {netConn['info']['ip']}")
     
-    return device
+    return netConn
 
-def ping(self, ip):
+def ping(device):
     try:
-        conn = self.adminHost['monterrey']['router']['192.168.70.1']['conn']
+        conn = device['conn']
         conn.enable()
         r = conn.send_command(f"ping {ip}")
         print(f"ping:\n{r}")
