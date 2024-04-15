@@ -75,9 +75,32 @@ function loadText(obj, e, id_consola){
 
     reader.readAsText(file);
 }
-function sendCode(event, host){
-    console.log('ejecutando codigo', host)
+async function sendCode(event, host) {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(host)
+    };
+
+    // Realizar la solicitud fetch
+    await fetch('/api/exec', options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Hubo un problema con la solicitud: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Respuesta de la API:', data);
+            // Haz algo con la respuesta si es necesario
+        })
+        .catch(error => {
+            console.error('Error al realizar la solicitud:', error);
+        });
 }
+
 async function inicio() {
     deviceList = await fetchDevices()
     createDeviceList('network')

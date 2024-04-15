@@ -144,3 +144,27 @@ def get_branches():
     # <class 'list'> of type <class 'tuple'>
 
     return json.dumps(results)
+
+@bp.route("/api/exec", methods=['GET', 'POST'])
+@login_required
+def exec():
+    ip = request.json
+    device = get_device_by_ip(ip)
+    device = dict(device)
+    return jsonify({'device':[]})
+
+def get_device_by_ip(ip):
+    device = None
+    try:
+        db = get_db()
+        device = db.execute(
+            """
+            SELECT *
+            FROM Device
+            WHERE ip = ?
+            """,
+            (ip,)
+        ).fetchone()
+    except db.IntegrityError:
+        print('Error al obtener el dispositivo por dirección IP:', ip)
+    return device
