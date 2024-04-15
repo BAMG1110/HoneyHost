@@ -143,6 +143,7 @@ function createConsole(host){
         }
     }
 
+    // contenedor
     console.log('deviceInfo', deviceInfo)
     const consoleDiv = document.createElement('div');
     consoleDiv.addEventListener('click', showConsole);
@@ -150,6 +151,7 @@ function createConsole(host){
     consoleDiv.setAttribute('id', 'div_'+host)
     consoleDiv.classList.add('consola', 'hover');
     
+    // informacion del dispositivo
     const header = document.createElement('div');
     header.classList.add('consoleHeader');
     
@@ -165,45 +167,23 @@ function createConsole(host){
     ip.textContent = 'ip: ' + deviceInfo['ip']
     header.appendChild(ip)
 
-
+    // area comandos
     const textArea = document.createElement('textarea')
     textArea.setAttribute('id', 'consola_'+host)
     textArea.classList.add('hidden', 'code_area')
     
-    
+    // acciones
+    const send = document.createElement('button')
+    send.textContent = 'Ejecutar'
+
     consoleDiv.appendChild(header);
     consoleDiv.appendChild(textArea)
+    consoleDiv.appendChild(send)
 
     view_content.appendChild(consoleDiv)
 }
 
 // peticiones al servidor
-async function ping(d){
-    const htmlObj = document.getElementById(d['info']['host']+'_'+d['info']['ip'])
-    
-    // se cambia el bg para vizualizar el proceso
-    htmlObj.classList.add("bgPending")
-    
-    const ping = await fetch("/api/ping", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(d),
-    })
-    const x = await ping.json()
-    
-    // se cambia el bg acorde al resultado
-    const bg = x['conn']? 'bgAcepted':'bgRejected'
-    htmlObj.classList.add(bg)
-    htmlObj.classList.remove("bgPending")
-}
-
-async function conectar(d){
-
-    console.log('conectando ...', d)
-}
-
 async function fetchDevices(){
     const response = await fetch("/api/devices")
     let deviceList = await response.json()
