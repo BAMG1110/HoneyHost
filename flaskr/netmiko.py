@@ -1,6 +1,6 @@
 from netmiko import ConnectHandler
 
-def conectar(device):
+def exec_comand(device):
     try:
         conn =  ConnectHandler(**device['info'])
         conn.enable()
