@@ -8,7 +8,7 @@ from flaskr.database.db import get_db
 
 from flaskr.netmiko import netManager
 
-manager = netManager()
+netManager = netManager()
 
 bp = Blueprint('network', __name__)
 
@@ -155,11 +155,12 @@ def get_branches():
 @bp.route("/api/exec", methods=['GET', 'POST'])
 @login_required
 def exec():
-    print(session)
     ip = request.json
     device = get_device_by_ip(ip)
+    print('exec', device)
     device = dict(device)
-    netManager.exec_comand(device)
+    # abrir conn para mantener el acceso a la terminal
+    # netManager.exec_comand(device)
 
     return jsonify({'exec':[]})
 
@@ -167,19 +168,18 @@ def exec():
 @login_required
 def conn():
     ip = request.json
-    # device = get_device_by_ip(ip)
-    # device = dict(device)
-    # netManager.open_conn(device)
+    device = get_device_by_ip(ip)
+    device = netManager.open_conn(dict(device))
+    print('conn', netManager.open_conn_list)
 
-    return jsonify({'conn':[]})
+    return jsonify({'conn':device['conn']})
 
 @bp.route("/api/ping", methods=['GET', 'POST'])
 @login_required
 def ping():
-    device = request.json
-
-    print('ping: ', device)
-    device = dict(device)
+    ip = request.json
+    status = netManager.ping(ip)
+    print('ping: ', status)
 
     return jsonify({'ping':None})
 

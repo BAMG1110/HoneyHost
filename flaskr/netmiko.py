@@ -3,8 +3,8 @@ import subprocess  # For executing a shell command
 from netmiko import ConnectHandler
 
 class netManager:
-    def __init__(self) -> None:
-        self.open_conn = []
+    def __init__(self):
+        self.open_conn_list = []
         
     def exec_comand(self, device):
         netConn = {
@@ -32,8 +32,28 @@ class netManager:
         return netConn
 
     def open_conn(self, device):
-        self.open_conn.append(device)
-        return None
+        self.open_conn_list.append(device)
+        netConn = {
+            'info':{
+                'device_type': device['operating_system'],
+                "ip": device['ip'],
+                'host': device['hostname'],
+                'username': device['username'],
+                "password": device['password'],
+                'secret': device['secret']
+            },
+            'conn': None
+        }
+        try:
+            conn =  ConnectHandler(**netConn)
+            
+            netConn['conn'] = conn
+            print(f"conectado a {netConn['info']['host']}")
+        
+        except Exception as e:
+            print(f"falló conexion con {netConn['info']['ip']}")
+        
+        return netConn
 
     def ping(self, host):
         """
