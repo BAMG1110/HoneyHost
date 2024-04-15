@@ -76,12 +76,15 @@ function loadText(event, id_consola) {
     reader.readAsText(file);
 }
 async function exec(host) {
+    const textArea = document.getElementById('code_'+host)
+    const command = textArea.value;
+
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(host)
+        body: JSON.stringify([host, command])
     };
 
     // Realizar la solicitud fetch
@@ -187,7 +190,6 @@ async function openConn(host){
             console.error('Error al realizar la solicitud:', error);
         }); 
 }
-
 async function inicio() {
     deviceList = await fetchDevices()
     createDeviceList('network')

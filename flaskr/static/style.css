@@ -155,6 +155,9 @@ footer {
 .consoleHeader, .consoleResponse {
     pointer-events: none;
 }
+.consoleResponse {
+    padding: 1rem;
+}
 .code_area{
     border-width: 0.3rem;
     border-color: var(--button);

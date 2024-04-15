@@ -155,11 +155,12 @@ def get_branches():
 @bp.route("/api/exec", methods=['GET', 'POST'])
 @login_required
 def exec():
-    ip = request.json
-    response = netManager.exec_comand(ip)
+    ip = request.json[0]
+    command = request.json[1]
+    response = netManager.exec_comand(ip, command)
 
-    print('exec: ', response)
-    return jsonify({'exec':response})
+    # print('exec: ', response)
+    return jsonify({'exec':'response'})
 
 @bp.route("/api/conn", methods=['GET', 'POST'])
 @login_required

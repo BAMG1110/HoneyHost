@@ -6,9 +6,11 @@ class netManager:
     def __init__(self):
         self.open_conn_list = []
         
-    def exec_comand(self, ip):
-        device = self.find_opened_device(ip)
+    def exec_comand(self, ip, commands):
 
+        device = self.find_opened_device(ip)
+        commands = self.limpiar_comandos(commands)
+        print(commands)
         netConn = {
             'info':{
                 'device_type': device['operating_system'],
@@ -24,6 +26,8 @@ class netManager:
             netConn['conn'] =  ConnectHandler(**netConn)
             netConn['conn'].enable()
             netConn['response'] = netConn['conn'].find_prompt()
+            for command in commands:
+                netConn['response'] += "\n" + netConn['conn'].send_command_timing(command)
         
         except Exception as e:
             netConn['response'] = f"falló conexion con {netConn['info']['ip']}"
@@ -73,3 +77,8 @@ class netManager:
             if dispositivo['ip'] == ip_busqueda:
                 return dispositivo
         return None
+    
+    def limpiar_comandos(self, texto):
+        lineas = texto.split('\n')
+        comandos = [linea.strip() for linea in lineas if linea.strip()]
+        return comandos
