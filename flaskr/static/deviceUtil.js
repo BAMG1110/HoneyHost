@@ -21,9 +21,9 @@ async function addBranchOptions(deviceList) {
 }
 
 async function initDeviceView(){
-    let deviceList = await fetchDevices()
+    deviceList = await fetchDevices()
     await addBranchOptions(deviceList)
-    createDeviceList(deviceList, 'devices')
+    createDeviceList('devices')
 }
 
 initDeviceView()

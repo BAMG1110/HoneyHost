@@ -1,9 +1,9 @@
 let showDivA = true;
 let dispositivos_seleccionados = []
-let dispositivos
+let deviceList
 
 // creacion de componentes
-function createDeviceList(deviceList, view) {
+function createDeviceList(view) {
     let device_list_content = document.getElementById('list_content')
     for (const branch in deviceList){
         const branchContainer = document.createElement('div')
@@ -108,7 +108,7 @@ function createConsole(host){
 // peticiones al servidor
 async function fetchDevices(){
     const response = await fetch("/api/devices")
-    let deviceList = await response.json()
+    deviceList = await response.json()
     console.log('fetchDevices: ', deviceList)
     return deviceList
 }
