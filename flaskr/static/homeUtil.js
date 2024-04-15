@@ -75,7 +75,7 @@ function loadText(event, id_consola) {
 
     reader.readAsText(file);
 }
-async function sendCode(host) {
+async function exec(host) {
     const options = {
         method: 'POST',
         headers: {
@@ -93,8 +93,20 @@ async function sendCode(host) {
             return response.json();
         })
         .then(data => {
-            console.log('Respuesta de la API:', data);
+            console.log('Respuesta de la API:', host);
             // Haz algo con la respuesta si es necesario
+            const responseArea = document.getElementById('response_'+host);
+
+            const existingResponseText = responseArea.querySelector('p');
+        
+            // Si existe un elemento de texto, eliminarlo
+            if (existingResponseText) {
+                responseArea.removeChild(existingResponseText);
+            }
+        
+            const responseText = document.createElement('p');
+            responseText.textContent = data['exec']['response'];
+            responseArea.appendChild(responseText);
         })
         .catch(error => {
             console.error('Error al realizar la solicitud:', error);

@@ -156,13 +156,10 @@ def get_branches():
 @login_required
 def exec():
     ip = request.json
-    device = get_device_by_ip(ip)
-    print('exec', device)
-    device = dict(device)
-    # abrir conn para mantener el acceso a la terminal
-    # netManager.exec_comand(device)
+    response = netManager.exec_comand(ip)
 
-    return jsonify({'exec':[]})
+    print('exec: ', response)
+    return jsonify({'exec':response})
 
 @bp.route("/api/conn", methods=['GET', 'POST'])
 @login_required
@@ -170,8 +167,8 @@ def conn():
     ip = request.json
     device = get_device_by_ip(ip)
     device = netManager.open_conn(dict(device))
-    print('conn', netManager.open_conn_list)
 
+    print('conn: ', netManager.open_conn_list)
     return jsonify({'conn':device['conn']})
 
 @bp.route("/api/ping", methods=['GET', 'POST'])
@@ -179,9 +176,9 @@ def conn():
 def ping():
     ip = request.json
     status = netManager.ping(ip)
-    print('ping: ', status)
 
-    return jsonify({'ping':None})
+    print('ping: ', status)
+    return jsonify({'ping':status})
 
 # util
 def get_device_by_ip(ip):

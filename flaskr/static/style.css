@@ -152,7 +152,7 @@ footer {
     padding: 0.8rem;
     background-color: var(--button);
 }
-.consoleHeader {
+.consoleHeader, .consoleResponse {
     pointer-events: none;
 }
 .code_area{

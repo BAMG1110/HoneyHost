@@ -6,7 +6,9 @@ class netManager:
     def __init__(self):
         self.open_conn_list = []
         
-    def exec_comand(self, device):
+    def exec_comand(self, ip):
+        device = self.find_opened_device(ip)
+
         netConn = {
             'info':{
                 'device_type': device['operating_system'],
@@ -19,16 +21,13 @@ class netManager:
             'conn': None
         }
         try:
-            conn =  ConnectHandler(**netConn)
-            conn.enable()
-            host = conn.find_prompt()
-            
-            device['conn'] = conn
-            print(f"conectado a {netConn['info']['host']}")
+            netConn['conn'] =  ConnectHandler(**netConn)
+            netConn['conn'].enable()
+            netConn['response'] = netConn['conn'].find_prompt()
         
         except Exception as e:
-            print(f"falló conexion con {netConn['info']['ip']}")
-        
+            netConn['response'] = f"falló conexion con {netConn['info']['ip']}"
+
         return netConn
 
     def open_conn(self, device):
@@ -69,3 +68,8 @@ class netManager:
 
         return subprocess.call(command) == 0
 
+    def find_opened_device(self, ip_busqueda):
+        for dispositivo in self.open_conn_list:
+            if dispositivo['ip'] == ip_busqueda:
+                return dispositivo
+        return None

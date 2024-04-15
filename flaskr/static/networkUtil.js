@@ -94,10 +94,15 @@ function createConsole(host){
     textArea.classList.add('code_area')
     consoleDiv.appendChild(textArea)
     
+    const response = document.createElement('div');
+    response.classList.add('consoleResponse');
+    response.setAttribute('id','response_'+host);
+    consoleDiv.appendChild(response)
+
     // acciones
     const send = document.createElement('button')
     send.textContent = 'Ejecutar'
-    send.addEventListener('click', ()=>{sendCode(host)})
+    send.addEventListener('click', ()=>{exec(host)})
     consoleDiv.appendChild(send)
 
     const upload = document.createElement('input');
