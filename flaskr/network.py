@@ -6,7 +6,9 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.database.db import get_db
 
-from flaskr.netmiko import exec_comand
+from flaskr.netmiko import netManager
+
+manager = netManager()
 
 bp = Blueprint('network', __name__)
 
@@ -157,9 +159,19 @@ def exec():
     ip = request.json
     device = get_device_by_ip(ip)
     device = dict(device)
-    exec_comand(device)
+    netManager.exec_comand(device)
 
     return jsonify({'exec':[]})
+
+@bp.route("/api/conn", methods=['GET', 'POST'])
+@login_required
+def conn():
+    ip = request.json
+    # device = get_device_by_ip(ip)
+    # device = dict(device)
+    # netManager.open_conn(device)
+
+    return jsonify({'conn':[]})
 
 @bp.route("/api/ping", methods=['GET', 'POST'])
 @login_required

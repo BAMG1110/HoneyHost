@@ -76,13 +76,14 @@ function createConsole(host){
     hostname.textContent = deviceInfo['hostname']
     header.appendChild(hostname)
     
-    const deviceType = document.createElement('p')
-    deviceType.textContent = 'tipo: ' + deviceInfo['device_type']
-    header.appendChild(deviceType)
-    
     const ip = document.createElement('p')
     ip.textContent = 'ip: ' + deviceInfo['ip']
     header.appendChild(ip)
+    
+    const deviceType = document.createElement('h4')
+    deviceType.textContent = 'conexión ssh: pending'
+    deviceType.setAttribute('id', 'conn_'+host)
+    header.appendChild(deviceType)
     
     // area comandos
     const consoleDiv = document.createElement('div');

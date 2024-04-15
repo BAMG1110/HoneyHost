@@ -18,7 +18,7 @@ function addHostConsole(event) {
         event.target.classList.add('selected');
         // consola_individual.appendChild(contenedor)
         createConsole(host)
-        
+        openConn()
         console.log('add', host, dispositivos_seleccionados)
     }
 }
@@ -140,6 +140,45 @@ async function pingDeviceList() {
                 });
             }
     }
+}
+async function openConn(){
+    for (const branch in deviceList){
+        for (const device in deviceList[branch]['devices']){
+            const connH4 = document.getElementById('conn_'+deviceList[branch]['devices'][device]['ip'])
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(deviceList[branch]['devices'][device])
+            };
+
+            // Realizar la solicitud fetch
+            await fetch('/api/conn', options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Hubo un problema con la solicitud: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Respuesta de la API:', data);
+                    // Haz algo con la respuesta si es necesario
+                    console.log('conn',data['conn'])
+                    if(data['conn']){
+                        connH4.textContent = 'conexión ssh: ok'
+                    } else {
+                        connH4.textContent = 'conexión ssh: error'
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Error al realizar la solicitud:', error);
+                });
+                break
+        }
+    }    
 }
 
 async function inicio() {

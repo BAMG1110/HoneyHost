@@ -1,37 +1,51 @@
+import platform    # For getting the operating system name
+import subprocess  # For executing a shell command
 from netmiko import ConnectHandler
 
-def exec_comand(device):
-    netConn = {
-        'info':{
-            'device_type': device['operating_system'],
-            "ip": device['ip'],
-            'host': device['hostname'],
-            'username': device['username'],
-            "password": device['password'],
-            'secret': device['secret']
-        },
-        'conn': None
-    }
-    try:
-        conn =  ConnectHandler(**netConn)
-        conn.enable()
-        host = conn.find_prompt()
+class netManager:
+    def __init__(self) -> None:
+        self.open_conn = []
         
-        device['conn'] = conn
-        print(f"conectado a {netConn['info']['host']}")
-    
-    except Exception as e:
-        print(f"falló conexion con {netConn['info']['ip']}")
-    
-    return netConn
+    def exec_comand(self, device):
+        netConn = {
+            'info':{
+                'device_type': device['operating_system'],
+                "ip": device['ip'],
+                'host': device['hostname'],
+                'username': device['username'],
+                "password": device['password'],
+                'secret': device['secret']
+            },
+            'conn': None
+        }
+        try:
+            conn =  ConnectHandler(**netConn)
+            conn.enable()
+            host = conn.find_prompt()
+            
+            device['conn'] = conn
+            print(f"conectado a {netConn['info']['host']}")
+        
+        except Exception as e:
+            print(f"falló conexion con {netConn['info']['ip']}")
+        
+        return netConn
 
-def ping(device):
-    try:
-        conn = device['conn']
-        conn.enable()
-        r = conn.send_command(f"ping {ip}")
-        print(f"ping:\n{r}")
-        return True
-    except Exception as e:
-        print(f"ping fallido: {e}")
-        return False
+    def open_conn(self, device):
+        self.open_conn.append(device)
+        return None
+
+    def ping(self, host):
+        """
+        Returns True if host (str) responds to a ping request.
+        Remember that a host may not respond to a ping (ICMP) request even if the host name is valid.
+        """
+
+        # Option for the number of packets as a function of
+        param = '-n' if platform.system().lower()=='windows' else '-c'
+
+        # Building the command. Ex: "ping -c 1 google.com"
+        command = ['ping', param, '1', host]
+
+        return subprocess.call(command) == 0
+
