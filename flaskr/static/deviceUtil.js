@@ -1,9 +1,8 @@
-let deviceList
+function updateDevice(){
+    console.log('update :)')
+}
 
-async function addBranchOptions() {
-    deviceList = await fetchDevices()
-    createDeviceList()
-
+async function addBranchOptions(deviceList) {
     let branchSelect = document.getElementById('branch_id')
     
     // Agregar una opción vacía por defecto
@@ -21,4 +20,10 @@ async function addBranchOptions() {
     console.log('insersion de sucursales')
 }
 
-addBranchOptions()
+async function initDeviceView(){
+    let deviceList = await fetchDevices()
+    await addBranchOptions(deviceList)
+    createDeviceList(deviceList, 'devices')
+}
+
+initDeviceView()

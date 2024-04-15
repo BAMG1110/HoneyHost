@@ -2,98 +2,8 @@ let showDivA = true;
 let dispositivos_seleccionados = []
 let dispositivos
 
-// funciones dinamicas
-function showConsole(event){
-    for (const child of event.target.children) {
-        if (child.classList.contains('code_area')) {
-            if(child.classList.contains('hidden')){
-                child.classList.toggle('hidden', false)
-            } else {
-                child.classList.toggle('hidden', true)
-            }
-        }
-    }
-}
-function addHost(event) {
-    host = event.target.id
-    id = host.split('_')[1]
-    
-    // se crea elemento consola
-    const contenedor = document.createElement('div');
-    contenedor.setAttribute("id", 'consola_'+id)
-    contenedor.classList.add('consola');
-    
-    const branchHeader = document.createElement('p');
-    branchHeader.textContent = host;
-    contenedor.appendChild(branchHeader);
-    
-    if (!event.target.classList.contains('selected')) {
-        dispositivos_seleccionados.push(host)
-        event.target.classList.add('selected');
-        // consola_individual.appendChild(contenedor)
-        createConsole(host)
-        
-        console.log('add', host, dispositivos_seleccionados)
-    }
-    console.log('addHost: ', id)
-    // conectar(host)
-}
-function removeHost(event) {
-    event.preventDefault();
-    host = event.target
-    parent = host.parentElement
-    console.log('parent', parent)
-    
-    console.log('remove', dispositivos_seleccionados, host);
-    if (host.classList.contains('selected')) {
-        dispositivos_seleccionados.pop(host)
-        host.classList.remove('selected');
-        parent.removeChild(document.getElementById(host))
-    } else if (host.classList.contains('consola')){
-        id = host.id.replace('div_', '')
-        li = document.getElementById(id)
-        li.classList.remove('selected');
-        dispositivos_seleccionados.pop(id)
-        parent.removeChild(document.getElementById('div_'+id))
-    }
-}
-function addMultipleHost(event) {
-    tipoDispositivo = event.target
-
-    for (const child of tipoDispositivo.children) {
-        if (child.classList.contains('dispositivo')){
-            if (!child.classList.contains('selected')){
-                child.click();
-            }
-        }
-    }
-}
-function removeMultipleHost(event) {
-    event.preventDefault();
-    tipoDispositivo = event.target
-
-    for (const child of tipoDispositivo.children) {
-        if (child.classList.contains('dispositivo')){
-            if (child.classList.contains('selected')){
-                child.dispatchEvent(eventoClickDerecho);
-            }
-        }
-    }
-}
-function loadText(obj, e, id_consola){
-    console.log(e)
-    var file = e.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-        document.getElementById(id_consola).value = e.target.result;
-    }
-
-    reader.readAsText(file);
-}
-
 // creacion de componentes
-function createDeviceList() {
+function createDeviceList(deviceList, view) {
     let device_list_content = document.getElementById('list_content')
     for (const branch in deviceList){
         const branchContainer = document.createElement('div')
@@ -111,7 +21,19 @@ function createDeviceList() {
             const deviceContainer = document.createElement('div')
             deviceContainer.classList.add('dispositivo', 'hover', 'bgRed')
             deviceContainer.setAttribute("id", deviceInfo[1])
-            deviceContainer.addEventListener('click', addHost)
+
+            // segun el valor de view, es la funcion a ejecutar
+            switch(view){
+                case 'network':
+                    console.log('network :)')
+                    deviceContainer.addEventListener('click', addHostConsole)
+                    break
+                case 'devices':
+                    console.log('devices :)')
+                    deviceContainer.addEventListener('click', updateDevice)
+                    break
+
+            }
             // deviceContainer.addEventListener('contextmenu', removeHost)
 
             const hostname = document.createElement('p')
@@ -147,7 +69,7 @@ function createConsole(host){
     console.log('deviceInfo', deviceInfo)
     const consoleDiv = document.createElement('div');
     consoleDiv.addEventListener('click', showConsole);
-    consoleDiv.addEventListener('contextmenu', removeHost);
+    consoleDiv.addEventListener('contextmenu', removeHostConsole);
     consoleDiv.setAttribute('id', 'div_'+host)
     consoleDiv.classList.add('consola', 'hover');
     
