@@ -13,14 +13,10 @@ function createDeviceList(view) {
         branchContainer.appendChild(branchName)
         
         for (const device in deviceList[branch]['devices']){
-            let deviceInfo = [
-                deviceList[branch]['devices'][device]['device_type'],
-                deviceList[branch]['devices'][device]['ip']
-            ]
 
             const deviceContainer = document.createElement('div')
-            deviceContainer.classList.add('dispositivo', 'hover', 'bgRed')
-            deviceContainer.setAttribute("id", deviceInfo[1])
+            deviceContainer.classList.add('dispositivo', 'hover')
+            deviceContainer.setAttribute("id", deviceList[branch]['devices'][device]['ip'])
 
             // segun el valor de view, es la funcion a ejecutar
             switch(view){

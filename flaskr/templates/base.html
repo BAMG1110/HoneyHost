@@ -16,41 +16,46 @@
         </a>
       </h3>
     </div>
-    <div class="views">
-      <a class="action" href="{{ url_for('network.index') }}">
-        Network
-      </a>
-      <a class="action" href="{{ url_for('network.automatization') }}">
-        Automatization
-      </a>
-    </div>
+    {% if g.user %}
+      <div class="views" style="display: flex; gap: 0.5rem;">
+        <a class="action" href="{{ url_for('network.index') }}">
+          Network
+        </a>
+        <a class="action" href="{{ url_for('network.automatization') }}">
+          Automatization
+        </a>
+        <a class="action" href="{{ url_for('network.advance') }}">
+          Advance
+        </a>
+      </div>
 
-    <div class="userOptions">
-      {% if g.user %}
-      <span>{{ g.user['username'] }}</span>
-      <div class="dropdown">
-        <img class="profileImage" src="{{ url_for('static', filename='pp.jpg') }}" alt="profile picture">
-        <div class="dropdownContent">
-          <a class="action" href="{{ url_for('network.manageUser') }}">
-            Users
-          </a>
-          <a class="action" href="{{ url_for('network.manageDevice') }}">
-            Devices
-          </a>
-          <a class="action" href="{{ url_for('network.manageBranch') }}">
-            Branches
-          </a>
-          <hr>
-          <a href="{{ url_for('auth.logout') }}">
-            Log Out
-          </a>
+      <div class="userOptions">
+        <span>{{ g.user['username'] }}</span>
+        <div class="dropdown">
+          <img class="profileImage" src="{{ url_for('static', filename='pp.jpg') }}" alt="profile picture">
+          <div class="dropdownContent">
+            <a class="action" href="{{ url_for('network.manageUser') }}">
+              Users
+            </a>
+            <a class="action" href="{{ url_for('network.manageDevice') }}">
+              Devices
+            </a>
+            <a class="action" href="{{ url_for('network.manageBranch') }}">
+              Branches
+            </a>
+            <hr>
+            <a href="{{ url_for('auth.logout') }}">
+              Log Out
+            </a>
+          </div>
         </div>
       </div>
-      {% else %}
+    {% else %}
+    <div class="authOptions" style="display: flex; gap: 0.5rem;">
       <a href="{{ url_for('auth.register') }}">Register</a>
       <a href="{{ url_for('auth.login') }}">Log In</a>
-      {% endif %}
     </div>
+    {% endif %}      
   </nav>
   
   <div class="bodyContent">

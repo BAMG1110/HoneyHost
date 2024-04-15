@@ -100,10 +100,52 @@ async function sendCode(event, host) {
             console.error('Error al realizar la solicitud:', error);
         });
 }
+async function pingDeviceList() {
+    for (const branch in deviceList){
+        for (const device in deviceList[branch]['devices']){
+            console.log(deviceList[branch]['devices'][device]['ip'])
+            const deviceBg = document.getElementById(deviceList[branch]['devices'][device]['ip'])
+            deviceBg.classList.add('bgPending');
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(deviceList[branch]['devices'][device])
+            };
+
+            // Realizar la solicitud fetch
+            await fetch('/api/ping', options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Hubo un problema con la solicitud: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Respuesta de la API:', data);
+                    // Haz algo con la respuesta si es necesario
+                    if(data['ping']){
+                        deviceBg.classList.remove('bgPending'); // Elimina la clase bgRed
+                        deviceBg.classList.add('bgAcepted'); // Elimina la clase bgRed
+                    } else {
+                        deviceBg.classList.remove('bgPending'); // Elimina la clase bgRed
+                        deviceBg.classList.add('bgRejected'); // Elimina la clase bgRed
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Error al realizar la solicitud:', error);
+                });
+            }
+    }
+}
 
 async function inicio() {
     deviceList = await fetchDevices()
     createDeviceList('network')
+    pingDeviceList()
     console.log("network")
 }
 

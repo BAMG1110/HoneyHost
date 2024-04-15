@@ -21,6 +21,11 @@ def index():
 def automatization():
     return render_template('network/automatization.html')
 
+@bp.route('/advance')
+@login_required
+def advance():
+    return render_template('network/advance.html')
+
 @bp.route('/manageDevice', methods=('GET', 'POST'))
 @login_required
 def manageDevice():
@@ -154,8 +159,19 @@ def exec():
     device = dict(device)
     exec_comand(device)
 
-    return jsonify({'device':[]})
+    return jsonify({'exec':[]})
 
+@bp.route("/api/ping", methods=['GET', 'POST'])
+@login_required
+def ping():
+    device = request.json
+
+    print('ping: ', device)
+    device = dict(device)
+
+    return jsonify({'ping':None})
+
+# util
 def get_device_by_ip(ip):
     device = None
     try:
