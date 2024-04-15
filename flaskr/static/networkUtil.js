@@ -70,7 +70,7 @@ function createConsole(host){
     container.addEventListener('click', showConsole);
     container.addEventListener('contextmenu', removeHostConsole);
     container.setAttribute('id', 'div_'+host)
-    container.classList.add('consola', 'hover');
+    container.classList.add('consoleContainer', 'hover');
     
     // informacion del dispositivo
     const header = document.createElement('div');
@@ -90,17 +90,17 @@ function createConsole(host){
     
     // area comandos
     const consoleDiv = document.createElement('div');
-    consoleDiv.classList.add('hidden', 'consoleDiv');
+    consoleDiv.classList.add('hidden', 'console');
     
     const textArea = document.createElement('textarea')
-    textArea.setAttribute('id', 'consola_'+host)
+    textArea.setAttribute('id', 'code_'+host)
     textArea.classList.add('code_area')
     consoleDiv.appendChild(textArea)
     
     // acciones
     const send = document.createElement('button')
     send.textContent = 'Ejecutar'
-    send.addEventListener('click', sendCode);
+    send.addEventListener('click', ()=>{sendCode(host)})
     consoleDiv.appendChild(send)
 
     container.appendChild(header)

@@ -140,7 +140,7 @@ footer {
 .tipo_dispositivo {
     margin-bottom: 0.2rem;
 }
-.consola {
+.consoleContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
