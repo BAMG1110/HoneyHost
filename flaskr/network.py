@@ -8,6 +8,7 @@ from flaskr.database.db import get_db
 
 bp = Blueprint('network', __name__)
 
+# vistas
 @bp.route('/')
 @login_required
 def index():

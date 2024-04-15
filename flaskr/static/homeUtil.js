@@ -1,7 +1,7 @@
 // funciones dinamicas
 function showConsole(event){
     for (const child of event.target.children) {
-        if (child.classList.contains('code_area')) {
+        if (child.classList.contains('consoleDiv')) {
             if(child.classList.contains('hidden')){
                 child.classList.toggle('hidden', false)
             } else {

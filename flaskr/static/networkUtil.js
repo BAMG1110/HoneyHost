@@ -32,7 +32,6 @@ function createDeviceList(view) {
                     console.log('devices :)')
                     deviceContainer.addEventListener('click', updateDevice)
                     break
-
             }
             // deviceContainer.addEventListener('contextmenu', removeHost)
 
@@ -67,11 +66,11 @@ function createConsole(host){
 
     // contenedor
     console.log('deviceInfo', deviceInfo)
-    const consoleDiv = document.createElement('div');
-    consoleDiv.addEventListener('click', showConsole);
-    consoleDiv.addEventListener('contextmenu', removeHostConsole);
-    consoleDiv.setAttribute('id', 'div_'+host)
-    consoleDiv.classList.add('consola', 'hover');
+    const container = document.createElement('div');
+    container.addEventListener('click', showConsole);
+    container.addEventListener('contextmenu', removeHostConsole);
+    container.setAttribute('id', 'div_'+host)
+    container.classList.add('consola', 'hover');
     
     // informacion del dispositivo
     const header = document.createElement('div');
@@ -80,29 +79,33 @@ function createConsole(host){
     const hostname = document.createElement('h3')
     hostname.textContent = deviceInfo['hostname']
     header.appendChild(hostname)
-
+    
     const deviceType = document.createElement('p')
     deviceType.textContent = 'tipo: ' + deviceInfo['device_type']
     header.appendChild(deviceType)
-
+    
     const ip = document.createElement('p')
     ip.textContent = 'ip: ' + deviceInfo['ip']
     header.appendChild(ip)
-
+    
     // area comandos
+    const consoleDiv = document.createElement('div');
+    consoleDiv.classList.add('hidden', 'consoleDiv');
+    
     const textArea = document.createElement('textarea')
     textArea.setAttribute('id', 'consola_'+host)
-    textArea.classList.add('hidden', 'code_area')
+    textArea.classList.add('code_area')
+    consoleDiv.appendChild(textArea)
     
     // acciones
     const send = document.createElement('button')
     send.textContent = 'Ejecutar'
-
-    consoleDiv.appendChild(header);
-    consoleDiv.appendChild(textArea)
     consoleDiv.appendChild(send)
 
-    view_content.appendChild(consoleDiv)
+    container.appendChild(header)
+    container.appendChild(consoleDiv)
+
+    view_content.appendChild(container)
 }
 
 // peticiones al servidor
