@@ -1,7 +1,7 @@
 // funciones dinamicas
 function showConsole(event){
     for (const child of event.target.children) {
-        if (child.classList.contains('consoleDiv')) {
+        if (child.classList.contains('console')) {
             if(child.classList.contains('hidden')){
                 child.classList.toggle('hidden', false)
             } else {
@@ -12,16 +12,6 @@ function showConsole(event){
 }
 function addHostConsole(event) {
     host = event.target.id
-    id = host.split('_')[1]
-    
-    // se crea elemento consola
-    const contenedor = document.createElement('div');
-    contenedor.setAttribute("id", 'consola_'+id)
-    contenedor.classList.add('consola');
-    
-    const branchHeader = document.createElement('p');
-    branchHeader.textContent = host;
-    contenedor.appendChild(branchHeader);
     
     if (!event.target.classList.contains('selected')) {
         dispositivos_seleccionados.push(host)
@@ -31,8 +21,6 @@ function addHostConsole(event) {
         
         console.log('add', host, dispositivos_seleccionados)
     }
-    console.log('addHostConsole: ', id)
-    // conectar(host)
 }
 function removeHostConsole(event) {
     event.preventDefault();
@@ -45,7 +33,7 @@ function removeHostConsole(event) {
         dispositivos_seleccionados.pop(host)
         host.classList.remove('selected');
         parent.removeChild(document.getElementById(host))
-    } else if (host.classList.contains('consola')){
+    } else if (host.classList.contains('consoleContainer')){
         id = host.id.replace('div_', '')
         li = document.getElementById(id)
         li.classList.remove('selected');
@@ -86,6 +74,9 @@ function loadText(obj, e, id_consola){
     }
 
     reader.readAsText(file);
+}
+function sendCode(event, host){
+    console.log('ejecutando codigo', event.target, host)
 }
 async function inicio() {
     deviceList = await fetchDevices()
