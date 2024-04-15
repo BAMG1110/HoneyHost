@@ -96,9 +96,15 @@ function createConsole(host){
     // acciones
     const send = document.createElement('button')
     send.textContent = 'Ejecutar'
-    send.addEventListener('click', (event)=>{sendCode(event, host)})
+    send.addEventListener('click', ()=>{sendCode(host)})
     consoleDiv.appendChild(send)
 
+    const upload = document.createElement('input');
+    upload.type = 'file';
+    upload.addEventListener('change', (event) => { loadText(event, host); });
+    consoleDiv.appendChild(upload);
+
+    // armando consuelo pereira (armado de consola perron)
     container.appendChild(header)
     container.appendChild(consoleDiv)
 

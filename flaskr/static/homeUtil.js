@@ -64,18 +64,18 @@ function removeMultipleHost(event) {
         }
     }
 }
-function loadText(obj, e, id_consola){
-    console.log(e)
-    var file = e.target.files[0];
-    var reader = new FileReader();
+function loadText(event, id_consola) {
+    const id = 'code_' + id_consola;
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
     reader.onload = function(e) {
-        document.getElementById(id_consola).value = e.target.result;
+        document.getElementById(id).value = e.target.result;
     }
 
     reader.readAsText(file);
 }
-async function sendCode(event, host) {
+async function sendCode(host) {
     const options = {
         method: 'POST',
         headers: {
