@@ -76,7 +76,7 @@ function loadText(obj, e, id_consola){
     reader.readAsText(file);
 }
 function sendCode(event, host){
-    console.log('ejecutando codigo', event.target, host)
+    console.log('ejecutando codigo', host)
 }
 async function inicio() {
     deviceList = await fetchDevices()

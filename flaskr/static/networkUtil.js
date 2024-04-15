@@ -100,7 +100,7 @@ function createConsole(host){
     // acciones
     const send = document.createElement('button')
     send.textContent = 'Ejecutar'
-    send.addEventListener('click', ()=>{sendCode(host)})
+    send.addEventListener('click', (event)=>{sendCode(event, host)})
     consoleDiv.appendChild(send)
 
     container.appendChild(header)
