@@ -7,32 +7,24 @@ class netManager:
         self.open_conn_list = []
         
     def exec_comand(self, ip, commands):
-        device = self.find_opened_device(ip)
+        netConn = self.find_opened_device(ip)
         commands = self.limpiar_comandos(commands)
-        netConn = {
-            'info':{
-                'device_type': device['operating_system'],
-                "ip": device['ip'],
-                'host': device['hostname'],
-                'username': device['username'],
-                "password": device['password'],
-                'secret': device['secret']
-            },
-            'conn': None
-        }
         try:
-            netConn['conn'] =  ConnectHandler(**netConn)
             netConn['conn'].enable()
             netConn['response'] = netConn['conn'].find_prompt()
             for command in commands:
-                netConn['response'] += "\n" + netConn['conn'].send_command_timing(command)
+                print(f'\ncommand:{command}#\n')
+                r = netConn['conn'].send_command_timing(command)
+                netConn['response'] += "\n" + r
         
         except Exception as e:
             netConn['response'] = f"falló conexion con {netConn['info']['ip']}"
 
+        print('exec :9', netConn)
         return netConn
 
     def open_conn(self, device):
+        
         netConn = {
             'info':{
                 'device_type': device['operating_system'],
@@ -44,8 +36,9 @@ class netManager:
             },
             'conn': None
         }
+        print('\nnetConn', netConn)
         try:
-            conn =  ConnectHandler(**netConn)
+            conn =  ConnectHandler(**netConn['info'])
             
             netConn['conn'] = conn
             print(f"conectado a {netConn['info']['host']}")
@@ -76,12 +69,13 @@ class netManager:
         return subprocess.call(command) == 0
 
     def find_opened_device(self, ip_busqueda):
+        print(self.open_conn_list)
         for dispositivo in self.open_conn_list:
-            if dispositivo['ip'] == ip_busqueda:
+            if dispositivo['info']['ip'] == ip_busqueda:
                 return dispositivo
         return None
     
     def limpiar_comandos(self, texto):
-        lineas = texto.split('\n')
+        lineas = texto.split(' \n')
         comandos = [linea.strip() for linea in lineas if linea.strip()]
         return comandos

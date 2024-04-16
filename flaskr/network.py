@@ -189,7 +189,7 @@ def exec():
     response = netManager.exec_comand(ip, command)
 
     # print('exec: ', response)
-    return jsonify({'exec':'response'})
+    return jsonify({'exec':response['response']})
 
 @bp.route("/api/conn", methods=['GET', 'POST'])
 @login_required
@@ -199,7 +199,11 @@ def conn():
     device = netManager.open_conn(dict(device))
 
     print('conn: ', netManager.open_conn_list)
-    return jsonify({'conn':device['conn']})
+    if device['conn']:
+        r = True
+    else:
+        r = None
+    return jsonify({'conn':r})
 
 @bp.route("/api/ping", methods=['GET', 'POST'])
 @login_required

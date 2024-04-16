@@ -96,7 +96,7 @@ async function exec(host) {
             return response.json();
         })
         .then(data => {
-            console.log('Respuesta de la API:', host);
+            console.log('Respuesta de la API:', data);
             // Haz algo con la respuesta si es necesario
             const responseArea = document.getElementById('response_'+host);
 
