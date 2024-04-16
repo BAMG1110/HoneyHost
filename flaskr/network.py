@@ -189,6 +189,16 @@ def exec():
     response = netManager.exec_comand(ip, command)
 
     # print('exec: ', response)
+    return jsonify({'exec':response})
+
+@bp.route("/api/mac", methods=['GET', 'POST'])
+@login_required
+def mac():
+    mac = request.json[0]
+    deviceList = request.json[1]
+    response = netManager.buscar_mac_en_red(mac, deviceList)
+
+    print('mac: ', response)
     return jsonify({'exec':'response'})
 
 @bp.route("/api/conn", methods=['GET', 'POST'])

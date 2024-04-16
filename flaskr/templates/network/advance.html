@@ -9,6 +9,12 @@
   <!-- Las opciones se generarán dinámicamente con JavaScript -->
 </div>
 <div id="view_content" class="viewContent">
-  buscar mac addres
+  <h3>Buscar MAC en la Red</h3>
+  <form>
+      <label for="macAddressInput">Ingresa la dirección MAC:</label>
+      <input type="text" id="macAddressInput" name="macAddressInput">
+      <button type="button" onclick="findMac()">Buscar</button>
+  </form>
 </div>
+<script src="{{ url_for('static', filename='advanceUtil.js')}}"></script>
 {% endblock %}

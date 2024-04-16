@@ -81,6 +81,32 @@ class netManager:
                 return dispositivo
         return None
     
+    def buscar_mac_en_red(self, mac_address, deviceList):
+        found_on_devices = []
+        print('buscar_mac', mac_address)
+        for branch in deviceList:
+            for device in deviceList[branch]['devices']:
+                print('\n device', device['ip'])
+        # for device in deviceList:
+        #     try:
+        #         # Conectarse al dispositivo
+        #         device_connection = ConnectHandler(**device)
+
+        #         # Ejecutar el comando para buscar la dirección MAC en la tabla ARP
+        #         output = device_connection.send_command("show ip arp | include " + mac_address)
+
+        #         # Verificar si se encuentra la dirección MAC en la salida
+        #         if mac_address in output:
+        #             found_on_devices.append(device['ip'])
+
+        #         # Cerrar la conexión
+        #         device_connection.disconnect()
+
+        #     except Exception as e:
+        #         print(f"No se pudo conectar al dispositivo {device['ip']}. Error: {str(e)}")
+
+        return 'found_on_devices'
+
     def limpiar_comandos(self, texto):
         lineas = texto.split('\n')
         comandos = [linea.strip() for linea in lineas if linea.strip()]
