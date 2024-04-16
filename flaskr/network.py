@@ -32,12 +32,38 @@ def advance():
 @login_required
 def manageDevice():
     if request.method == 'POST':
-        print(request.form)
-
         try:
             db = get_db()
-            db.execute(
-                """
+            cursor = db.cursor()
+
+            # Verificar si el dispositivo ya existe en la base de datos
+            cursor.execute("SELECT * FROM Device WHERE hostname=?", (request.form['hostname'],))
+            existing_device = cursor.fetchone()
+
+            if existing_device:
+                # Si el dispositivo ya existe, actualizar sus detalles
+                db.execute(
+                    """
+                    UPDATE Device
+                    SET branch_id=?, ip=?, device_type=?, operating_system=?, username=?, password=?, secret=?
+                    WHERE hostname=?
+                    """,
+                    (
+                        request.form['branch_id'],
+                        request.form['ip'],
+                        request.form['device_type'],
+                        request.form['operating_system'],
+                        request.form['username'],
+                        request.form['password'],
+                        request.form['secret'],
+                        request.form['hostname']
+                    )
+                )
+                print("Dispositivo actualizado correctamente.")
+            else:
+                # Si el dispositivo no existe, insertarlo como un nuevo registro
+                db.execute(
+                    """
                     INSERT INTO Device (
                         hostname,
                         branch_id,
@@ -48,23 +74,26 @@ def manageDevice():
                         password,
                         secret
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    request.form['hostname'],
-                    request.form['branch_id'],
-                    request.form['ip'],
-                    request.form['device_type'],
-                    request.form['operating_system'],
-                    request.form['username'],
-                    request.form['password'],
-                    request.form['secret'],
+                    """,
+                    (
+                        request.form['hostname'],
+                        request.form['branch_id'],
+                        request.form['ip'],
+                        request.form['device_type'],
+                        request.form['operating_system'],
+                        request.form['username'],
+                        request.form['password'],
+                        request.form['secret'],
+                    )
                 )
-            )
+                print("Dispositivo registrado correctamente.")
+
             db.commit()
-        except db.IntegrityError:
-            print(f"error al registrar un dispositivo nuevo: {db.IntegrityError}")
+        except db.Error as e:
+            print(f"Error al gestionar el dispositivo: {e}")
 
     return render_template('network/device.html')
+
 
 @bp.route('/manageBranch', methods=('GET', 'POST'))
 @login_required
