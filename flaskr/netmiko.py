@@ -7,10 +7,8 @@ class netManager:
         self.open_conn_list = []
         
     def exec_comand(self, ip, commands):
-
         device = self.find_opened_device(ip)
         commands = self.limpiar_comandos(commands)
-        print(commands)
         netConn = {
             'info':{
                 'device_type': device['operating_system'],
@@ -35,7 +33,6 @@ class netManager:
         return netConn
 
     def open_conn(self, device):
-        self.open_conn_list.append(device)
         netConn = {
             'info':{
                 'device_type': device['operating_system'],
@@ -56,6 +53,12 @@ class netManager:
         except Exception as e:
             print(f"falló conexion con {netConn['info']['ip']}")
         
+        # Verificar si el dispositivo ya está en la lista
+        existing_device_ips = [conn['info']['ip'] for conn in self.open_conn_list]
+        if device['ip'] not in existing_device_ips:
+            self.open_conn_list.append(netConn)
+
+        print('\nopen', self.open_conn_list,'\n')
         return netConn
 
     def ping(self, host):
